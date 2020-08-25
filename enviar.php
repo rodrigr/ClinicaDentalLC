@@ -1,142 +1,48 @@
 <?php
-if(isset($_POST['email'])) {
- 
-    // $email_to = "agenda@clinicadentallc.uy";
- 
-    // $email_to = "jnmnlg@gmail.com";
 
-    $email_to = "rj.garcia.ribeiro@gmail.com";
- 
-    $email_subject = "Contacto desde Web";
- 
-    function died($error) {
- 
-        // mensajes de error
- 
-        echo "Lo sentimos, hubo un error en sus datos y el formulario no puede ser enviado en este momento. ";
- 
-        echo "Detalle de los errores.<br /><br />";
- 
-        echo $error."<br /><br />";
- 
-        echo "Porfavor corrija estos errores e inténtelo de nuevo.<br /><br />";
-        die();
-    }
- 
-    // Se valida que los campos del formulairo estén llenos
- 
-    if(!isset($_POST['first_name']) ||
- 
-        !isset($_POST['last_name']) ||
- 
-        !isset($_POST['email']) ||
- 
-        !isset($_POST['telephone']) ||
- 
-        !isset($_POST['message'])) {
- 
-        die('Lo sentimos pero parece haber un problema con los datos enviados.');
- 
-    }
- //En esta parte el valor "name"  sirve para crear las variables que recolectaran la información de cada campo
- 
-    $first_name = $_POST['first_name']; // requerido
- 
-    $last_name = $_POST['last_name']; // requerido
- 
-    $email_from = $_POST['email']; // requerido
- 
-    $telephone = $_POST['telephone']; // no requerido 
- 
-    $message = $_POST['message']; // requerido
- 
-    $error_message = "";//Linea numero 52;
- 
-//En esta parte se verifica que la dirección de correo sea válida 
- 
-   $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
- 
-  if(!preg_match($email_exp,$email_from)) {
- 
-    $error_message .= 'La dirección de correo proporcionada no es válida.<br />';
- 
-  }
- 
-//En esta parte se validan las cadenas de texto
- 
-    $string_exp = "/^[A-Za-z .'-]+$/";
- 
-  if(!preg_match($string_exp,$first_name)) {
- 
-    $error_message .= 'El formato del nombre no es válido<br />';
- 
-  }
- 
-  if(!preg_match($string_exp,$last_name)) {
- 
-    $error_message .= 'el formato del apellido no es válido.<br />';
- 
-  }
- 
-  if(strlen($message) < 2) {
- 
-    $error_message .= 'El formato del texto no es válido.<br />';
- 
-  }
- 
-  if(strlen($error_message) > 0) {
- 
-    die($error_message);
- 
-  }
- 
-//Este es el cuerpo del mensaje tal y como llegará al correo
- 
-    $email_message = "Contenido del Mensaje.\n\n";
- 
- 
- 
-    function clean_string($string) {
- 
-      $bad = array("content-type","bcc:","to:","cc:","href");
- 
-      return str_replace($bad,"",$string);
- 
-    }
- 
- 
- 
-    $email_message .= "Nombre: ".clean_string($first_name)."\n";
- 
-    $email_message .= "Apellido: ".clean_string($last_name)."\n";
- 
-    $email_message .= "Email: ".clean_string($email_from)."\n";
- 
-    $email_message .= "Teléfono: ".clean_string($telephone)."\n";
- 
-    $email_message .= "Mensaje: ".clean_string($message)."\n";
- 
- 
-//Se crean los encabezados del correo
- 
-$headers = 'From: '.$email_from."\r\n".
- 
-'Reply-To: '.$email_from."\r\n" .
- 
-'X-Mailer: PHP/' . phpversion();
- 
-@mail($email_to, $email_subject, $email_message, $headers);
- 
-?>
- 
- 
- 
-<!-- Mensaje de que fue enviado-->
- 
+if($_POST){
 
- 
-<?php
- header('Location:/mensajedecontacto.html');
+  $first_name = "";
+  $last_name = "";
+  $email_from = "";
+  $telephone = "";
+  $message = "";
+  $email_to = "rj.garcia.ribeiro@gmail.com";
+  $email_subject = "Contacto desde Web";
+
+  if(isset($_POST['first_name'])){
+    $first_name = filter_var($_POST['first_name'], FILTER_SANITIZE_STRING);
+  }
+
+  if(isset($_POST['last_name'])){
+    $last_name = filter_var($_POST['last_name'], FILTER_SANITIZE_STRING);
+  }
+
+  if(isset($_POST['email'])) {
+    $email_from = str_replace(array("\r", "\n", "%0a", "%0d"), '', $_POST['email']);
+    $email_from = filter_var($email_from, FILTER_VALIDATE_EMAIL);
+  }
+
+  if(isset($_POST['telephone'])){
+    $telephone = filter_var($_POST['telephone'], FILTER_SANITIZE_STRING);
+  }
+
+  if(isset($_POST['message'])) {
+    $message = htmlspecialchars($_POST['message']);
+  }
+
+  $headers  = 'MIME-Version: 1.0' . "\r\n"
+  .'Content-type: text/html; charset=utf-8' . "\r\n"
+  .'From: ' . $email_from . "\r\n";
+
+  if(mail($email_to,$email_subject,$message,$headers)){
+    echo "<p>Thank you for contacting us, $visitor_name. You will get a reply within 24 hours.</p>";
+  } else{
+    echo '<p>We are sorry but the email did not go through.</p>';
+  }
+
+}else{
+  echo '<p>Something went wrong</p>';
 }
- 
+
 ?>
