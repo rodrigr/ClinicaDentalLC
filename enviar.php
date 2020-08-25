@@ -36,7 +36,7 @@ if($_POST){
   .'From: ' . $email_from . "\r\n";
 
   if(mail($email_to,$email_subject,$message,$headers)){
-    echo "<p>Thank you for contacting us, $visitor_name. You will get a reply within 24 hours.</p>";
+    echo "<p>Thank you for contacting us. You will get a reply within 24 hours.</p>";
   } else{
     echo '<p>We are sorry but the email did not go through.</p>';
   }
