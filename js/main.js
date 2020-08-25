@@ -23,3 +23,7 @@ service_links.on('click',function(){
     $(this).children('.fa-angle-down').toggle()
     $(this).children('.fa-angle-up').toggle()
 })
+
+$('.blog-lg').on('shown.bs.collapse', function (e) {
+    e.target.scrollIntoView();
+});

@@ -182,6 +182,11 @@ header{
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 1em;
+    margin: 25px 0;
+}
+
+.blog-lg{
+    padding-top: 100px;
 }
 
 .blog h3{
@@ -208,6 +213,9 @@ header{
 }
 
 /* Ubicación Styling */
+#ubicacion{
+    padding-top: 150px;
+}
 
 #ubicacion iframe{
     border: 0;
