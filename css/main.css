@@ -292,15 +292,12 @@ footer .container{
     padding-top: 30px;
 }
 
-/* footer .icons>div{
-    justify-content: center;
-} */
-
 .media ul{
     list-style-type: none;
     display: flex;
     width: 100%;
     justify-content: space-around;
+    padding: 0;
 }
 
 .media .fa-facebook-square{
