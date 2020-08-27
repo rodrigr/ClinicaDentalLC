@@ -31,7 +31,7 @@ if($_POST){
     $message = htmlspecialchars($_POST['message']);
   }
 
-  $headers  = 'MIME-Version: 1.0' . "\r\n"
+  $headers = 'MIME-Version: 1.0' . "\r\n"
   .'Content-type: text/html; charset=utf-8' . "\r\n"
   .'From: ' . $email_from . "\r\n";
 
