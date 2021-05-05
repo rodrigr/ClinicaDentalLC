@@ -31,18 +31,33 @@ if($_POST){
     $message = htmlspecialchars($_POST['message']);
   }
 
+  $email_message = "Contenido del Mensaje.\n\n";
+
+  $email_message .= "Nombre: ".$first_name."\n";
+ 
+    $email_message .= "Apellido: ".$last_name."\n";
+ 
+    $email_message .= "Email: ".$email_from."\n";
+ 
+    $email_message .= "Teléfono: ".$telephone."\n";
+ 
+    $email_message .= "Mensaje: ".$message."\n";
+
   $headers = 'MIME-Version: 1.0' . "\r\n"
   .'Content-type: text/html; charset=utf-8' . "\r\n"
   .'From: ' . $email_from . "\r\n";
 
-  if(mail($email_to,$email_subject,$message,$headers)){
-    echo "<p>Thank you for contacting us. You will get a reply within 24 hours.</p>";
+  if(mail($email_to,$email_subject,$email_message,$headers)){
+    header("Location:response.html");
+    exit();
   } else{
-    echo '<p>We are sorry but the email did not go through.</p>';
+    header("Location:response2.html");
+    exit();
   }
 
 }else{
-  echo '<p>Something went wrong</p>';
+  header("Location:response2.html");
+  exit();
 }
 
 ?>

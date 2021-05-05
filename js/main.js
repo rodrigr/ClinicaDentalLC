@@ -27,3 +27,5 @@ service_links.on('click',function(){
 $('.blog-lg').on('shown.bs.collapse', function (e) {
     e.target.scrollIntoView();
 });
+
+$('#alert').modal({show: true})
